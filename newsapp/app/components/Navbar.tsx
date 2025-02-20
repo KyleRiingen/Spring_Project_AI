@@ -27,6 +27,14 @@ function Navbar() {
           <Link href="/about">About</Link>
         </li>
       </ol>
+      <ol className="ml-5 flex flex-row align-middle">
+        <li>
+          <Link href="/login">Login</Link>
+        </li>
+        <li>
+          <Link href="/signup">SignUp</Link>
+        </li>
+      </ol>
         
     </div>
   )

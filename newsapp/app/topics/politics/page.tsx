@@ -1,10 +1,14 @@
 import React from 'react'
+import Layout from '../components/layout'
 
 function page() {
   return (
-    <div>
-      politics
-    </div>
+    <Layout>
+      <div>
+        politics
+      </div>
+    </Layout>
+    
   )
 }
 
