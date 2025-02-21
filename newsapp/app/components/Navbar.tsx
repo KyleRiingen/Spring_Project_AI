@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 
 function Navbar() {
+
   return (
     <div className="flex flex-row shadow-md items-center p-5">
         <h1 className="m-2 mr-10">Generic News</h1>
@@ -29,10 +30,7 @@ function Navbar() {
       </ol>  
       <div className="flex flex-row flex-grow justify-end align-center">
         <div className="flex align-center m-2 bg-neutral-950 hover:bg-neutral-600 rounded-md">
-          <Link href="/login" className="text-white p-2">Login</Link>
-        </div>
-        <div className="flex align-center m-2 bg-neutral-950 hover:bg-neutral-600 rounded-md">
-          <Link href="/signup" className="text-white p-2">SignUp</Link>
+          <Link href="/api/auth/signin" className="text-white p-2">SignIn</Link>
         </div>
       </div>
     </div>
