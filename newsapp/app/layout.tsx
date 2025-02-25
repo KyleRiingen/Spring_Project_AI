@@ -1,7 +1,11 @@
+// We are telling nextJS this is only a client component now by default all components are server components
+"use client";
 import React from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import "./globals.css"
+import { SessionProvider } from "next-auth/react";
+
 
 // Looks bad but the RootLayout is used to wrap all the components of our application.
 // Since we want the NavBar and Footer to be on every page of the application this layout does that 
@@ -14,9 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        {children}
-        <Footer /> 
+        <SessionProvider >
+          <Navbar />
+          {children}
+          <Footer /> 
+        </SessionProvider>
       </body>
     </html>
   );

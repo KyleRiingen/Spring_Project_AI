@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import { redirect } from "next/dist/server/api-utils";
 // Configuration for OAuth
 // Essentially we are creating an endpoint so when the user visits [source]/api/auth/*
 // OAuth is going to handle any request to that endpoint
@@ -42,8 +43,13 @@ export const authOptions = {
           token.id = profile.id
         }
         return token
+      },
+      async redirect({ baseUrl }) { 
+        // On sign in return to home page which is baseURL
+        return baseUrl
       }
   },
+  
 }
 
 export default NextAuth(authOptions)
