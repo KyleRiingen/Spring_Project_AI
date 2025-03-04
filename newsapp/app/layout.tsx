@@ -3,6 +3,7 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import TestFetch from "./components/TestFetch" //TEST CREATED WITH GPT
 import "./globals.css"
 import { SessionProvider } from "next-auth/react";
 
@@ -21,6 +22,7 @@ export default function RootLayout({
         <SessionProvider >
           <Navbar />
           {children}
+          <TestFetch />
           <Footer /> 
         </SessionProvider>
       </body>
