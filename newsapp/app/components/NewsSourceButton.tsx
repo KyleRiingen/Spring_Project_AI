@@ -3,6 +3,7 @@
 // if it is selected. For almost every occurence where you can you want to use server side rendering 
 // because its faster so only use client components in the lowest levels. 
 import React from 'react';
+import { useState } from 'react';
 
 // Type of the prop is going to be a string 
 interface NewsSourceButtonProps {
@@ -11,8 +12,11 @@ interface NewsSourceButtonProps {
 
 // Type is a react functional component of the type string basically for the name
 const NewsSourceButton: React.FC<NewsSourceButtonProps> = ({ name }) => {
+    const [buttonClicked, setButtonClicked] = useState(false); 
   return (
-    <div className="bg-white shadow-md w-40 h-40 flex items-center justify-center text-xl font-bold rounded-lg cursor-pointer hover:shadow-blue-300 transition">
+    <div className="bg-white shadow-md w-40 h-40 flex items-center justify-center text-xl font-bold rounded-lg cursor-pointer hover:shadow-blue-300 transition"
+         onClick={() => setButtonClicked(!buttonClicked)}
+    >
       {name}
     </div>
   );

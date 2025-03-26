@@ -4,7 +4,6 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import "./globals.css"
-import { SessionProvider } from "next-auth/react";
 import { Sigmar, Montserrat } from "next/font/google"
 
 const sigmar = Sigmar({
@@ -30,11 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${sigmar.variable} ${montserrat.variable} bg-stone-50`} >
-        <SessionProvider >
           <Navbar />
           {children}
           <Footer /> 
-        </SessionProvider>
       </body>
     </html>
   );
