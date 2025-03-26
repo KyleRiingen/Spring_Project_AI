@@ -5,7 +5,19 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import "./globals.css"
 import { SessionProvider } from "next-auth/react";
+import { Sigmar, Montserrat } from "next/font/google"
 
+const sigmar = Sigmar({
+  subsets: ["latin"],
+  variable: "--font-sigmar",
+  weight: "400"
+})
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  weight: "400"
+})
 
 // Looks bad but the RootLayout is used to wrap all the components of our application.
 // Since we want the NavBar and Footer to be on every page of the application this layout does that 
@@ -17,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${sigmar.variable} ${montserrat.variable} bg-stone-50`} >
         <SessionProvider >
           <Navbar />
           {children}
