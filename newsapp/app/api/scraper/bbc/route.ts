@@ -6,13 +6,14 @@ type Article = {
     title: string;
     url: string;
     content?: string;
-    newsSource: string; 
+    newsSource: string;
+    author?: string 
 };
-  
-// Function to fetch content with a longer timeout & error handling
+
+// Function to fetch content 
 async function getContent(browser: Browser, link: string) { 
     const page: Page = await browser.newPage(); 
-  
+    
     try {
       await page.goto(link, {
         waitUntil: "networkidle2", // Ensures all requests finish
@@ -24,6 +25,8 @@ async function getContent(browser: Browser, link: string) {
           .map(p => p.textContent?.trim())
           .filter(Boolean);
       });
+
+      
   
       return paragraphs.join(" ");
     } catch (error) {

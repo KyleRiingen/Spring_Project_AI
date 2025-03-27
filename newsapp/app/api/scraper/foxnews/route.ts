@@ -6,7 +6,8 @@ type Article = {
     title: string;
     url: string;
     content?: string;
-    newsSource : string;
+    newsSource: string;
+    author?: string 
 };
 
 // Function to fetch content with a longer timeout & error handling
@@ -20,17 +21,24 @@ async function getContent(browser: Browser, link: string) {
         });
 
         // Extract all <p> tags inside the target nested divs
-        const paragraphs = await page.evaluate(() => {
-            return Array.from(document.querySelectorAll('.article-content-wrap .article-content .article-body p'))
+        const {content, authorName} = await page.evaluate(() => {
+            const content = Array.from(document.querySelectorAll('.article-content-wrap .article-content .article-body p'))
                 .filter(p => p.childNodes.length === 1 && p.childNodes[0].nodeType === Node.TEXT_NODE) // Ensures only pure text
                 .map(p => p.textContent?.trim())
                 .filter(Boolean);
+
+            const authorName = document.querySelector('.author-byline span')?.textContent?.trim() || "Unknown";
+
+            return {content, authorName};
         });
 
-        return paragraphs.join(" ");
+        const joinedContent = content.join(" ")
+
+        return {joinedContent, authorName}
+        
     } catch (error) {
         console.error(`Failed to load ${link}:`, error);
-        return "Content could not be loaded.";
+        return {content: "Content could not be loaded", authorName: "none"} 
     } finally {
         await page.close(); // Always close the page
     }
@@ -59,7 +67,7 @@ export async function GET() {
                   const title = anchor.textContent?.trim() || "";
                   const url = anchor.href; // Now `href` is valid because we know it's an anchor element
           
-                  return { title, url, newsSource: "CNN" };
+                  return { title, url, newsSource: "Fox News" };
                 }
           
                 return null; // If no anchor is found, return null
@@ -69,7 +77,9 @@ export async function GET() {
 
         // Assign content to articles
         const contentPromises = articles.map(async (article) => {
-            article.content = await getContent(browser, article.url);
+            const { joinedContent, authorName } = await getContent(browser, article.url);
+            article.content = joinedContent;
+            article.author = authorName;
         });
         await Promise.all(contentPromises);
 

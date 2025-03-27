@@ -6,7 +6,8 @@ type Article = {
     title: string;
     url: string;
     content?: string;
-    newsSource : string;
+    newsSource: string;
+    author?: string; 
 };
 
 // Function to fetch content with a longer timeout & error handling
@@ -20,10 +21,12 @@ async function getContent(browser: Browser, link: string) {
         });
 
         // Extract all p tag text inside the target div
-        const paragraphs = await page.evaluate(() => {
-            return Array.from(document.querySelectorAll('div.article__content[itemprop="articleBody"] p'))
+        const {content, authorName} = await page.evaluate(() => {
+            const content =  Array.from(document.querySelectorAll('div.article__content[itemprop="articleBody"] p'))
                 .map(p => p.textContent?.trim())
                 .filter(Boolean);
+
+            const authorName = document.querySelector(".byline__names vossi-")
         });
 
         return paragraphs.join(" ");
