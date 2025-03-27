@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import "./globals.css"
 import { Sigmar, Montserrat } from "next/font/google"
+import ButtonContext from "./ButtonContext"
 
 const sigmar = Sigmar({
   subsets: ["latin"],
@@ -29,9 +30,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${sigmar.variable} ${montserrat.variable} bg-stone-50`} >
+        <ButtonContext>
           <Navbar />
           {children}
           <Footer /> 
+        </ButtonContext>
+          
       </body>
     </html>
   );
