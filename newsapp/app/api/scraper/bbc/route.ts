@@ -20,18 +20,21 @@ async function getContent(browser: Browser, link: string) {
         timeout: 120000, // Increase timeout to 120 seconds needed to load all the pages
       });
   
-      const paragraphs = await page.evaluate(() => {
-        return Array.from(document.querySelectorAll('article div[data-component="text-block"] p'))
+      const {content, author} = await page.evaluate(() => {
+        const content = Array.from(document.querySelectorAll('article div[data-component="text-block"] p'))
           .map(p => p.textContent?.trim())
           .filter(Boolean);
+
+        const author = document.querySelector('div[data-testid="byline-new-contributors"] .sc-b42e7a8f-5.evAEAB span')?.textContent?.trim();
+
+        return {content, author}
       });
 
-      
-  
-      return paragraphs.join(" ");
+      const joinedContent = content.join(" ")
+      return {joinedContent, author};
     } catch (error) {
       console.error(`Failed to load ${link}:`, error);
-      return "Content could not be loaded.";
+      return {content: "Content could not be loaded."};
     } finally {
       await page.close(); // Always close the page
     }
@@ -39,7 +42,7 @@ async function getContent(browser: Browser, link: string) {
 
 export async function GET() {
   try {
-    const browser: Browser = await puppeteer.launch({ headless: false });
+    const browser: Browser = await puppeteer.launch({ headless: true });
     const page: Page = await browser.newPage();
 
     await page.goto("https://www.bbc.com/news/us-canada", { waitUntil: "domcontentloaded" });
@@ -49,21 +52,20 @@ export async function GET() {
         .map((el) => {
           const link = el as HTMLAnchorElement;
           let title = link.querySelector('h2[data-testid="card-headline"]')?.textContent?.trim() || "";
-
-
           return { title, url: link.href, newsSource: "BBC" };
         })
         .filter(article => article.title && article.url);
     });
 
 
-    // Assign content to articles
+     // Assign content to articles
     const contentPromises = articles.map(async (article) => {
-        article.content = await getContent(browser, article.url);
+      const { joinedContent, author } = await getContent(browser, article.url);
+      article.content = joinedContent;
+      article.author = author;
     });
     await Promise.all(contentPromises);
   
-
     await browser.close();
 
     return NextResponse.json({ articles }, { status: 200 });

@@ -26,13 +26,19 @@ async function getContent(browser: Browser, link: string) {
                 .map(p => p.textContent?.trim())
                 .filter(Boolean);
 
-            const authorName = document.querySelector(".byline__names vossi-")
+            const authorName = document.querySelector(".byline__names.vossi-byline__names span")?.textContent?.trim();
+
+            return {content, authorName}
         });
 
-        return paragraphs.join(" ");
+
+        const joinedContent = content.join(" ")
+
+        return {joinedContent, authorName}
+
     } catch (error) {
         console.error(`Failed to load ${link}:`, error);
-        return "Content could not be loaded.";
+        return {content: "Content could not be loaded."};
     } finally {
         await page.close(); // Always close the page
     }
@@ -40,7 +46,7 @@ async function getContent(browser: Browser, link: string) {
 
 export async function GET() {
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 
     await page.goto("https://www.cnn.com/politics", { waitUntil: "domcontentloaded" });
@@ -57,8 +63,10 @@ export async function GET() {
 
     // Assign content to articles
     const contentPromises = articles.map(async (article) => {
-        article.content = await getContent(browser, article.url);
-    });
+            const { joinedContent, authorName } = await getContent(browser, article.url);
+            article.content = joinedContent;
+            article.author = authorName;
+        });
     await Promise.all(contentPromises);
 
     await browser.close();
