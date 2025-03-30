@@ -1,4 +1,5 @@
 import NewsSourceButton from "./components/NewsSourceButton";
+import TitleContainer from "./components/TitleContainer";
 
 export default function Home() {
   return (
@@ -19,6 +20,9 @@ export default function Home() {
         <NewsSourceButton name="CNN"/>
         <NewsSourceButton name="Fox News"/>
       </div>
+
+      {/*Selectable Title Buttons to compare two news articles */}
+      <TitleContainer /> 
     </div>
   );
 }
