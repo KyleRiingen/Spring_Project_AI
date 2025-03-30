@@ -10,6 +10,7 @@ type Article = {
     author?: string 
 };
 
+
 // Fetch all the data from the specified endpoints already created 
 async function fetchData(url: string) {
     try {
@@ -54,6 +55,10 @@ async function saveDataToDatabase(data: Article[]) {
 
 // This API Endpoint will be used to create new articles in the database on vercel cron jobs once a day
 export async function GET() { 
+    // Delete all rows because only going to compare articles daily 
+    await db.delete(articles);
+
+    // All api endpoints 
     const endpoints: string[] = [
         "http://localhost:3000/api/scraper/cnn",
         "http://localhost:3000/api/scraper/foxnews",
