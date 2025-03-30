@@ -2,20 +2,54 @@
 import React from 'react'
 import { useEffect, useContext, useState } from 'react';
 import { ButtonContext } from '../ButtonContext';
+import TitleButton from './TitleButton';
 
+interface Article { 
+  titles: string; 
+}
 function TitleContainer() {
   // Buttons are all the currently pressed news source buttons in local storage 
-  const {buttons} = useContext(ButtonContext);
-  const [news1, setNews1] = useState([]); // Keep track of all the news source elements in first news source
-  const [news2, setNews2] = useState([]); // Keey track of all the elements in the second news source 
+  const {buttons} = useContext(ButtonContext); // Array of names of news source
+  const [news1, setNews1] = useState<Article[]>([]);
+  const [news2, setNews2] = useState<Article[]>([]); 
+
   // On change of the buttons we want to fetch the corresponding data again
   useEffect(() => {
-    
+   async function fetchArticles() { 
+    if(buttons.length == 1) { 
+      const response = await fetch(`http://${process.env.NEXT_PUBLIC_BASE_URL}/api/articles/${buttons[0].toLowerCase()}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json()
+      setNews1(data);
+      console.log(news1);
+    } else if(buttons.length == 2) { 
+      const response2 = await fetch(`http://${process.env.NEXT_PUBLIC_BASE_URL}/api/articles/${buttons[1].toLowerCase()}`);
+      if (!response2.ok) {
+        throw new Error(`HTTP error! Status: ${response2.status}`);
+      }
+      const data = await response2.json()
+      setNews2(data);
+    }
+   };
+   fetchArticles(); 
   }, [buttons])
 
 
   return (
-    <div className=" border ">TitleSelector</div>
+    <div className=" border ">
+      {/* Left Side Second News Source */}
+      <div className="w-1/2">
+        {news1.map((item, index) => (
+          <TitleButton key={index} name={item.titles} />
+        ))}
+      </div>
+      {/* Right Side Second News Source */}
+      <div className="w-1/2">
+
+      </div>
+    </div>
   )
 }
 
