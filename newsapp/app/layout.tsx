@@ -1,7 +1,6 @@
 // We are telling nextJS this is only a client component now by default all components are server components
 "use client";
 import React from "react";
-import Footer from "./components/Footer";
 import "./globals.css"
 import { Sigmar, Montserrat } from "next/font/google"
 import ButtonContext from "./ButtonContext"
@@ -31,9 +30,7 @@ export default function RootLayout({
       <body className={`${sigmar.variable} ${montserrat.variable} bg-stone-50`} >
         <ButtonContext>
           {children}
-          <Footer /> 
         </ButtonContext>
-          
       </body>
     </html>
   );

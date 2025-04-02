@@ -24,30 +24,48 @@ function TitleContainer() {
 
   // On change of the buttons we want to fetch the corresponding data again
   useEffect(() => {
-   async function fetchArticles() { 
-    if(buttons.length == 1) { 
-      const buttonName = buttons[0].toLowerCase().replace(/\s/g, "");
-
-      const response = await fetch(`http://${process.env.NEXT_PUBLIC_BASE_URL}/api/articles/${buttonName}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+    async function fetchArticles() {
+      try {
+        if (buttons.length === 1) {
+          const buttonName = buttons[0].toLowerCase().replace(/\s/g, "");
+          const response = await fetch(`http://${process.env.NEXT_PUBLIC_BASE_URL}/api/articles/${buttonName}`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const data = await response.json();
+          setNews1(data);
+          setNews2([]); // Clear second news set if only one button is selected
+        } 
+        else if (buttons.length === 2) {
+          const buttonName1 = buttons[0].toLowerCase().replace(/\s/g, "");
+          const buttonName2 = buttons[1].toLowerCase().replace(/\s/g, "");
+  
+          // Fetch both news sources in parallel
+          const [response1, response2] = await Promise.all([
+            fetch(`http://${process.env.NEXT_PUBLIC_BASE_URL}/api/articles/${buttonName1}`),
+            fetch(`http://${process.env.NEXT_PUBLIC_BASE_URL}/api/articles/${buttonName2}`)
+          ]);
+  
+          if (!response1.ok || !response2.ok) {
+            throw new Error(`HTTP error! Status: ${response1.status}, ${response2.status}`);
+          }
+  
+          const [data1, data2] = await Promise.all([response1.json(), response2.json()]);
+  
+          setNews1(data1);
+          setNews2(data2);
+        } 
+        else {
+          setNews1([]);
+          setNews2([]);
+        }
+      } catch (error) {
+        console.error("Error fetching articles:", error);
       }
-      const data = await response.json()
-      setNews1(data);
-      //console.log(news1);
-    } else if(buttons.length == 2) { 
-      const buttonName = buttons[0].toLowerCase().replace(/\s/g, "");
-      const response2 = await fetch(`http://${process.env.NEXT_PUBLIC_BASE_URL}/api/articles/${buttonName}`);
-      if (!response2.ok) {
-        throw new Error(`HTTP error! Status: ${response2.status}`);
-      }
-      const data = await response2.json()
-      setNews2(data);
-      console.log(news2);
     }
-   };
-   fetchArticles(); 
-  }, [buttons])
+  
+    fetchArticles();
+  }, [buttons]);
 
 
   return (

@@ -1,5 +1,6 @@
 import NewsSourceButton from "./components/NewsSourceButton";
 import TitleContainer from "./components/TitleContainer";
+import ArticleContainer from "./components/ArticleContainer";
 
 export default function Home() {
   return (
@@ -23,6 +24,13 @@ export default function Home() {
 
       {/*Selectable Title Buttons to compare two news articles */}
       <TitleContainer /> 
+
+      {/*Article Container loaded once the content */}
+      <div className="flex flex-row">
+        <ArticleContainer />
+        <ArticleContainer />
+      </div>
+      
     </div>
   );
 }
