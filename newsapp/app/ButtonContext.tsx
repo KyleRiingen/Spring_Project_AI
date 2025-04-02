@@ -2,38 +2,45 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 
 
-// Define the structure of the cart context
+// Define the structure of the button context
 interface ButtonContextType {
   buttons: string[];
+  canSelectMore: () => boolean; 
   addButton: (item: string) => void;
   removeButton: (buttonName: string) => void;
 }
 
-// Create the CartContext with a default value
+// Create the buttoncontext with a default value
 export const ButtonContext = createContext<ButtonContextType>({
   buttons: [],
+  canSelectMore: () => true, 
   addButton: () => {},
   removeButton: () => {},
 });
 
 // Define the props for the provider component
-interface CartProviderProps {
+interface ButtonProviderProps {
   children: ReactNode;
 }
 
-const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
+const ButtonProvider: React.FC<ButtonProviderProps> = ({ children }) => {
     // Array of buttonTypes 
   const [buttons, setButtons] = useState<string[]>([]);
 
-  // Initialize cart from localStorage on mount
+  // Clears local storage on reload
   useEffect(() => {
-    const savedCart = localStorage.getItem("buttons");
-    if (savedCart) {
-      setButtons(JSON.parse(savedCart) as string[]);
-    }
+    const clearLocalStorage = () => {
+      localStorage.removeItem("buttons");
+    };
+  
+    window.addEventListener("beforeunload", clearLocalStorage);
+    
+    return () => {
+      window.removeEventListener("beforeunload", clearLocalStorage);
+    };
   }, []);
 
-  // Update localStorage whenever cartItems changes
+  // Update localStorage whenever buttons changes
   useEffect(() => {
     if (buttons.length > 0) {
       localStorage.setItem("buttons", JSON.stringify(buttons));
@@ -56,9 +63,18 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     });
   };
 
+  const canSelectMore = (): boolean => {
+    if (buttons.length < 2) { 
+      return true
+    } else { 
+      return false
+    }
+  }
+
 
   const contextValue: ButtonContextType = {
     buttons: buttons,
+    canSelectMore,
     addButton,
     removeButton
   };
@@ -70,4 +86,4 @@ const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   );
 };
 
-export default CartProvider;
+export default ButtonProvider;

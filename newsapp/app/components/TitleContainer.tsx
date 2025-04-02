@@ -2,7 +2,6 @@
 import React from 'react'
 import { useEffect, useContext, useState } from 'react';
 import { ButtonContext } from '../ButtonContext';
-import TitleButton from './TitleButton';
 
 interface Article { 
   titles: string; 
@@ -42,7 +41,7 @@ function TitleContainer() {
       {/* Left Side Second News Source */}
       <div className="w-1/2">
         {news1.map((item, index) => (
-          <TitleButton key={index} name={item.titles} />
+          <button key={index} className="bg-white p-2 m-2 font-montserrat">{item.titles}</button>
         ))}
       </div>
       {/* Right Side Second News Source */}
