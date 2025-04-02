@@ -2,21 +2,25 @@
 import React from 'react'
 import { useEffect, useContext, useState } from 'react';
 import { ButtonContext } from '../ButtonContext';
+import TitleButton from './TitleButton';
 
 interface Article { 
   titles: string; 
 }
 function TitleContainer() {
   // Buttons are all the currently pressed news source buttons in local storage 
-  const {buttons} = useContext(ButtonContext); // Array of names of news source
-  const [news1, setNews1] = useState<Article[]>([]);
-  const [news2, setNews2] = useState<Article[]>([]); 
-  const [visibleCount1, setVisibleCount1] = useState(5);
-  const [visibleCount2, setVisibleCount2] = useState(5);
+  const {buttons} = useContext(ButtonContext); // Array of names of news sources from button context
 
-  const loadMore1 = () => setVisibleCount1((prev) => prev + 5);
-  const loadMore2 = () => setVisibleCount2((prev) => prev + 5);
+  const [news1, setNews1] = useState<Article[]>([]); // all news1 titles 
+  const [news2, setNews2] = useState<Article[]>([]); // all news2 titles
 
+  const [visibleCount1, setVisibleCount1] = useState(5); // amount of titles that should be visible for news1
+  const [visibleCount2, setVisibleCount2] = useState(5); // amount of titles that should be visible for news2
+
+  const [selectedTitles, setSelectedTitles] = useState([]);
+
+  const loadMore1 = () => setVisibleCount1((prev) => prev + 5); // increase amount of visible titles news1
+  const loadMore2 = () => setVisibleCount2((prev) => prev + 5); // increase amount of visible titles news2
 
   // On change of the buttons we want to fetch the corresponding data again
   useEffect(() => {
@@ -48,12 +52,20 @@ function TitleContainer() {
 
   return (
     <div className="flex flex-row p-2 m-2">
+
       {/* Left Side - First News Source */}
       <div className="w-1/2 flex flex-col">
+        <div className="font-sigmar flex items-center justify-center text-2xl font-bold">
+        {buttons[0] ? (
+            <h1>
+              {buttons[0].toUpperCase()}
+            </h1>
+          ):(
+            <h1>Select an option above</h1>
+          )}
+        </div>
         {news1.slice(0, visibleCount1).map((item, index) => (
-          <button key={index} className="bg-white p-2 m-2 font-montserrat font-bold">
-            {item.titles}
-          </button>
+          <TitleButton title={item.titles} key={index}/>
         ))}
         {news1.length > visibleCount1 && (
           <button onClick={loadMore1} className="bg-black font-montserrat text-white p-2 m-2 rounded-md">
@@ -64,10 +76,17 @@ function TitleContainer() {
 
       {/* Right Side - Second News Source */}
       <div className="w-1/2 flex flex-col">
+        <div className="font-sigmar flex items-center justify-center text-2xl font-bold">
+          {buttons[1] ? (
+            <h1>
+              {buttons[1].toUpperCase()}
+            </h1>
+          ):(
+            <h1>Select an option above</h1>
+          )}
+        </div>
         {news2.slice(0, visibleCount2).map((item, index) => (
-          <button key={index} className="bg-white p-2 m-2 font-montserrat font-bold rounded-md">
-            {item.titles}
-          </button>
+          <TitleButton title={item.titles} key={index}/>
         ))}
         {news2.length > visibleCount2 && (
           <button onClick={loadMore2} className="bg-black font-montserrat text-white p-2 m-2 rounded-md">
