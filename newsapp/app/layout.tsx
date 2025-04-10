@@ -4,6 +4,7 @@ import React from "react";
 import "./globals.css"
 import { Sigmar, Montserrat } from "next/font/google"
 import ButtonContext from "./ButtonContext"
+import Header from "./components/Header"
 
 const sigmar = Sigmar({
   subsets: ["latin"],
@@ -29,7 +30,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${sigmar.variable} ${montserrat.variable} bg-stone-50`} >
         <ButtonContext>
-          {children}
+          <Header />
+          <main className="pt-20"> {/* Padding to account for the fixed header */}
+            {children}
+          </main>
         </ButtonContext>
       </body>
     </html>
