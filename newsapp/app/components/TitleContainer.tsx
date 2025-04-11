@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext, useState } from 'react';
-import { ButtonContext } from '../ButtonContext';
+import { ButtonContext } from '../compare/context/ButtonContext';
 import TitleButton from './TitleButton';
 import { useArticles } from '../hooks/useArticles';
 

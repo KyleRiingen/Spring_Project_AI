@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useContext} from "react";
-import { ButtonContext } from "../ButtonContext";
+import { ButtonContext } from "../compare/context/ButtonContext";
 
 function NewsSourceButton({name}: {name: string}) { 
     const [buttonClicked, setButtonClicked] = useState(false);
