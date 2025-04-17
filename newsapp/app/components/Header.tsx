@@ -15,7 +15,7 @@ const Header: React.FC = () => {
         <nav className="flex gap-6 text-sm font-montserrat text-gray-700">
           <Link href="/news" className="hover:text-blue-600 transition">News</Link>
           <Link href="/compare" className="hover:text-blue-600 transition">Compare</Link>
-          <Link href="#about" className="hover:text-blue-600 transition">About</Link>
+          <Link href="/about" className="hover:text-blue-600 transition">About</Link>
         </nav>
       </div>
     </header>
