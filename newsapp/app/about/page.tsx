@@ -33,7 +33,7 @@ export default function AboutPage() {
 
       <div className="mt-12">
         <p className="text-sm text-gray-500 font-montserrat">
-          Created by Mathew Wagerman — for transparency, clarity, and better information.
+          Created by Braxton Hardman, Mathew Wagerman, and Kyle Riingen — for transparency, clarity, and better information.
         </p>
       </div>
     </div>
