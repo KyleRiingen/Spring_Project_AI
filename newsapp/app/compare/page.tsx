@@ -4,7 +4,24 @@ import NewsSourceButton from "../components/NewsSourceButton";
 import TitleContainer from "../components/TitleContainer";
 import ArticleContainer from "../components/ArticleContainer";
 
+import { useSearchParams } from "next/navigation";
+import DisplayArticle from "../components/DisplayArticle"; // make sure path is correct
+
+
 export default function ComparePage() {
+
+    const searchParams = useSearchParams();
+const source = searchParams.get("source");
+const title = searchParams.get("title");
+
+if (source && title) {
+  return (
+    <div className="pt-20 px-6 max-w-5xl mx-auto">
+      <DisplayArticle source={source} title={title} />
+    </div>
+  );
+}
+
   return (
     <ButtonProvider>
       <div className="w-full h-full">
