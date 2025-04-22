@@ -13,22 +13,24 @@ const ArticleList: React.FC<ArticleListProps> = ({ source }) => {
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
 
   return (
-    <div className="mt-8 flex flex-col lg:flex-row gap-6"> {/* this is the magic line */}
+    <div className="mt-8 flex flex-col lg:flex-row gap-6">
 
-      {/* Article titles (left panel) */}
-      <div className="lg:w-1/3">
-        <h2 className="text-2xl font-bold font-montserrat mb-4">{source}</h2>
+      {/* 📝 List of Titles */}
+      <div className="lg:w-1/3 bg-white shadow-sm rounded-lg p-4 border border-gray-200">
+        <h2 className="text-2xl font-bold font-montserrat mb-4 text-gray-800">{source}</h2>
 
         {loading && <p className="text-gray-500">Loading articles...</p>}
         {error && <p className="text-red-500">Error: {error}</p>}
 
-        <div className="flex flex-col gap-2">
+        <div className="space-y-2">
           {news1.map((article, index) => (
             <button
               key={index}
               onClick={() => setSelectedTitle(article.titles)}
-              className={`text-left hover:underline font-medium ${
-                selectedTitle === article.titles ? "text-blue-800 font-semibold" : "text-blue-600"
+              className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition ${
+                selectedTitle === article.titles
+                  ? "bg-blue-100 text-blue-900 font-semibold"
+                  : "hover:bg-gray-100 text-gray-700"
               }`}
             >
               {article.titles}
@@ -37,7 +39,7 @@ const ArticleList: React.FC<ArticleListProps> = ({ source }) => {
         </div>
       </div>
 
-      {/* Article display (right panel) */}
+      {/* 📄 Selected Article Display */}
       <div className="lg:w-2/3">
         {selectedTitle && (
           <DisplayArticle source={source} title={selectedTitle} />

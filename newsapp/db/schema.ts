@@ -10,5 +10,5 @@ export const articles = pgTable("articles", {
   link: varchar({ length: 255 }).notNull(),
   newsSource: varchar({length: 255}).notNull(),
   content: text(), 
-  author: varchar()
+  author: varchar(),
 });
