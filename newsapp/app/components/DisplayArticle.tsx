@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useSingleArticle } from "../hooks/useSingleArticle";
-import { useBiasPrediction } from "../hooks/useBiasPrediction";
+// import { useBiasPrediction } from "../hooks/useBiasPrediction"; // no longer needed, not rating on the fly anymore
 
 interface DisplayArticleProps {
   source: string;
@@ -10,11 +10,6 @@ interface DisplayArticleProps {
 
 const DisplayArticle: React.FC<DisplayArticleProps> = ({ source, title }) => {
   const { article, loading, error } = useSingleArticle(source, title);
-  const {
-    bias,
-    loading: biasLoading,
-    error: biasError,
-  } = useBiasPrediction(article?.content ?? null);
 
   if (loading) return <p className="text-gray-500">Loading article...</p>;
   if (error) return <p className="text-red-500">Error: {error}</p>;
@@ -60,28 +55,22 @@ const DisplayArticle: React.FC<DisplayArticleProps> = ({ source, title }) => {
         </p>
       </div>
 
-      {/* 🧭 Bias Detection */}
-      <div className="pt-4 border-t">
-        <h3 className="text-lg font-semibold mb-2 text-gray-800">Bias Detection</h3>
-        {biasLoading && <p className="text-gray-500">Analyzing bias...</p>}
-        {biasError && <p className="text-red-500">Bias API error: {biasError}</p>}
-        {bias && (
-          <div className="space-y-1">
-            <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
-              bias.predicted === "Left" ? "bg-red-100 text-red-800" :
-              bias.predicted === "Right" ? "bg-blue-100 text-blue-800" :
-              "bg-gray-100 text-gray-800"
-            }`}>
-              Bias: {bias.predicted}
-            </span>
-            <p className="text-xs text-gray-600">
-              Scores: {bias.bias_scores.map((score, i) => (
-                <span key={i} className="mr-2">[{score.toFixed(3)}]</span>
-              ))}
-            </p>
-          </div>
-        )}
-      </div>
+      {/* 🧭 Bias from Database */}
+  <div className="pt-4 border-t">
+    <h3 className="text-lg font-semibold mb-2 text-gray-800">Bias Detection</h3>
+    {article.biasRating ? (
+      <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+        article.biasRating === "Left" ? "bg-red-100 text-red-800" :
+        article.biasRating === "Right" ? "bg-blue-100 text-blue-800" :
+        "bg-gray-100 text-gray-800"
+      }`}>
+        Bias: {article.biasRating}
+      </span>
+    ) : (
+      <p className="text-sm text-gray-500 italic">Bias: Not found</p>
+    )}
+  </div>
+
     </div>
   );
 };

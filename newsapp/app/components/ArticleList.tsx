@@ -14,15 +14,15 @@ const ArticleList: React.FC<ArticleListProps> = ({ source }) => {
 
   return (
     <div className="mt-8 flex flex-col lg:flex-row gap-6">
-
+      
       {/* 📝 List of Titles */}
-      <div className="lg:w-1/3 bg-white shadow-sm rounded-lg p-4 border border-gray-200">
-        <h2 className="text-2xl font-bold font-montserrat mb-4 text-gray-800">{source}</h2>
+      <div className="lg:w-1/3 bg-white shadow-sm rounded-xl border border-gray-200">
+        <h2 className="text-2xl font-bold font-montserrat p-4 text-gray-800">{source}</h2>
 
-        {loading && <p className="text-gray-500">Loading articles...</p>}
-        {error && <p className="text-red-500">Error: {error}</p>}
+        <div className="h-[600px] overflow-y-auto px-4 pb-4 space-y-2">
+          {loading && <p className="text-gray-500">Loading articles...</p>}
+          {error && <p className="text-red-500">Error: {error}</p>}
 
-        <div className="space-y-2">
           {news1.map((article, index) => (
             <button
               key={index}

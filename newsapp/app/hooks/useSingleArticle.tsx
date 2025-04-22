@@ -1,21 +1,35 @@
 "use client";
 import { useEffect, useState } from "react";
 
+// This hook fetches a single article based on the source and title provided.
+
 export interface FullArticle {
-  title: string;
-  content: string;
-  author?: string;
-  link?: string;
-  newsSource?: string;
-}
+    title: string;
+    content: string;
+    author?: string;
+    link?: string;
+    newsSource?: string;
+    biasRating?: string;
+    category?: string;
+    summary?: string;
+    imageUrl?: string;
+  }
+  
 
 export const useSingleArticle = (source: string, title: string | null) => {
   const [article, setArticle] = useState<FullArticle | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+ 
+
+
+
   useEffect(() => {
     if (!title) return;
+
+    if (article != null)
+        console.log("📦 Summary from API:", article); // ← is showing the real summary now
 
     const fetchArticle = async () => {
       setLoading(true);

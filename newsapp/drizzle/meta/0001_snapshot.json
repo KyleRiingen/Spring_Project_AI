@@ -1,11 +1,11 @@
 {
-  "id": "97a5d044-3a06-4a6a-86e8-a37657c6633e",
-  "prevId": "f710d5cc-5f95-42a4-adc6-803912063936",
+  "id": "0191bc6b-3c9a-4805-9927-460ccffd7a32",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.news": {
-      "name": "news",
+    "public.articles": {
+      "name": "articles",
       "schema": "",
       "columns": {
         "id": {
@@ -41,6 +41,30 @@
         "author": {
           "name": "author",
           "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "biasRating": {
+          "name": "biasRating",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "category": {
+          "name": "category",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "summary": {
+          "name": "summary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "imageUrl": {
+          "name": "imageUrl",
+          "type": "varchar(500)",
           "primaryKey": false,
           "notNull": false
         }
