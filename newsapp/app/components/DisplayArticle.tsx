@@ -50,8 +50,7 @@ const DisplayArticle: React.FC<DisplayArticleProps> = ({ source, title }) => {
         <h3 className="text-md font-semibold text-gray-700 mb-1">Summary</h3>
         <p className="text-sm text-gray-700">
           {/* Replace this with DB-powered summary */}
-          {/* Summary: A short excerpt summarizing the article content. */}
-          This is a placeholder for a short summary of the article. When integrated with your DB, this will show article highlights.
+          {article.summary || "No summary available."}
         </p>
       </div>
 
