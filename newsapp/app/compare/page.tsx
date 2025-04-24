@@ -45,25 +45,23 @@ function PageContent() {
         <h2 className="text-center text-xl font-semibold text-gray-800 font-montserrat mb-6">
           Step 3: Read Full Articles
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {titleButtons.length === 2 ? (
-            <>
-              <ArticleContainer
-                source={titleButtons[0].source}
-                title={titleButtons[0].title}
-              />
-              <ArticleContainer
-                source={titleButtons[1].source}
-                title={titleButtons[1].title}
-              />
-            </>
-          ) : (
-            <p className="col-span-2 text-center text-gray-500">
-              Select two articles to compare.
-            </p>
-          )}
-        </div>
-      </section>
+        {titleButtons.length === 2 ? (
+          <div className="flex flex-col md:flex-row justify-center gap-8">
+            <ArticleContainer
+              source={titleButtons[0].source}
+              title={titleButtons[0].title}
+            />
+            <ArticleContainer
+              source={titleButtons[1].source}
+              title={titleButtons[1].title}
+            />
+          </div>
+        ) : (
+          <div className="bg-gray-100 text-gray-500 font-montserrat text-center rounded-xl p-6">
+            Select two articles to compare.
+          </div>
+        )}
+</section>
     </div>
   );
 }
