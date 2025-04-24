@@ -1,28 +1,28 @@
 "use client";
 
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import { ButtonContext } from "../compare/context/ButtonContext";
 
-function NewsSourceButton({name}: {name: string}) { 
-    const [buttonClicked, setButtonClicked] = useState(false);
-    // Comes from the Button Context keeps track of buttons pressed 
-    const {buttons, addButton, removeButton, canSelectMore} = useContext(ButtonContext); 
-    const isSelected = buttons.includes(name);
-    
+function NewsSourceButton({ name }: { name: string }) {
+  const [buttonClicked, setButtonClicked] = useState(false);
+  const { buttons, addButton, removeButton, canSelectMore } = useContext(ButtonContext);
+  const isSelected = buttons.includes(name);
 
   return (
     <div
-      className={`w-40 h-40 flex items-center justify-center text-xl font-bold rounded-lg cursor-pointer transition 
-                  ${buttonClicked ? "border-2 border-blue-500 shadow-lg" : "shadow-md hover:shadow-black bg-white"}`}
+      className={`w-40 h-40 flex items-center justify-center text-lg font-semibold rounded-2xl cursor-pointer border transition-all duration-200
+        ${
+          isSelected
+            ? "bg-blue-600 text-white border-blue-600 shadow-lg"
+            : "bg-white text-gray-800 border-gray-300 hover:border-gray-500 hover:shadow-md"
+        }`}
       onClick={() => {
-        const more = canSelectMore();    
-        console.log(more);     
-        if(isSelected) { 
-            removeButton(name);
-            setButtonClicked(!buttonClicked);
-        } else if (more) { 
-            addButton(name);
-            setButtonClicked(!buttonClicked);
+        if (isSelected) {
+          removeButton(name);
+          setButtonClicked(false);
+        } else if (canSelectMore()) {
+          addButton(name);
+          setButtonClicked(true);
         }
       }}
     >

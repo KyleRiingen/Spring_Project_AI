@@ -1,12 +1,13 @@
 "use client";
-import React from 'react'
+
+import React from "react";
 
 function ArticleContainer() {
   return (
-    <div className="border-black shadow-grey-300 m-2 bg-white rounded-md shadow-lg w-1/2 flex items-center justify-center">
+    <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 w-full min-h-[300px] flex items-center justify-center text-gray-700 text-lg font-montserrat">
       ArticleContainer
     </div>
-  )
+  );
 }
 
-export default ArticleContainer
+export default ArticleContainer;
