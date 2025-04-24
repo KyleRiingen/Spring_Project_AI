@@ -23,18 +23,30 @@ function TitleContainer() {
         <h2 className="text-center text-xl sm:text-2xl font-semibold font-montserrat text-gray-800 mb-4">
           {source1 ? source1.toUpperCase() : ""}
         </h2>
-        <div className="flex flex-col gap-3">
-          {news1.slice(0, visibleCount1).map((item, index) => (
-            <TitleButton title={item.titles} key={index} />
-          ))}
-        </div>
-        {news1.length > visibleCount1 && (
-          <button
-            onClick={loadMore1}
-            className="mt-4 self-center bg-black text-white font-medium font-montserrat px-5 py-2 rounded-md hover:bg-gray-900 transition"
-          >
-            Add More
-          </button>
+        {source1 ? (
+          <>
+            <div className="flex flex-col gap-3">
+              {news1.slice(0, visibleCount1).map((item, index) => (
+                <TitleButton
+                  title={item.titles}
+                  key={index}
+                  source={source1}
+                />
+              ))}
+            </div>
+            {news1.length > visibleCount1 && (
+              <button
+                onClick={loadMore1}
+                className="mt-4 self-center bg-black text-white font-medium font-montserrat px-5 py-2 rounded-md hover:bg-gray-900 transition"
+              >
+                Add More
+              </button>
+            )}
+          </>
+        ) : (
+          <div className="bg-gray-100 text-gray-500 font-montserrat text-center rounded-xl p-6">
+            Select a source to display article titles here.
+          </div>
         )}
       </div>
 
@@ -43,18 +55,30 @@ function TitleContainer() {
         <h2 className="text-center text-xl sm:text-2xl font-semibold font-montserrat text-gray-800 mb-4">
           {source2 ? source2.toUpperCase() : ""}
         </h2>
-        <div className="flex flex-col gap-3">
-          {news2.slice(0, visibleCount2).map((item, index) => (
-            <TitleButton title={item.titles} key={index} />
-          ))}
-        </div>
-        {news2.length > visibleCount2 && (
-          <button
-            onClick={loadMore2}
-            className="mt-4 self-center bg-black text-white font-medium font-montserrat px-5 py-2 rounded-md hover:bg-gray-900 transition"
-          >
-            Add More
-          </button>
+        {source2 ? (
+          <>
+            <div className="flex flex-col gap-3">
+              {news2.slice(0, visibleCount2).map((item, index) => (
+                <TitleButton
+                  title={item.titles}
+                  key={index}
+                  source={source2}
+                />
+              ))}
+            </div>
+            {news2.length > visibleCount2 && (
+              <button
+                onClick={loadMore2}
+                className="mt-4 self-center bg-black text-white font-medium font-montserrat px-5 py-2 rounded-md hover:bg-gray-900 transition"
+              >
+                Add More
+              </button>
+            )}
+          </>
+        ) : (
+          <div className="bg-gray-100 text-gray-500 font-montserrat text-center rounded-xl p-6">
+            Select a second source to begin comparison.
+          </div>
         )}
       </div>
 
