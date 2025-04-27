@@ -6,6 +6,7 @@ import { Sigmar, Montserrat } from "next/font/google"
 import ButtonContext from "./compare/context/ButtonContext"
 import Header from "./components/Header"
 
+
 const sigmar = Sigmar({
   subsets: ["latin"],
   variable: "--font-sigmar",
