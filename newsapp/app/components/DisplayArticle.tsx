@@ -21,7 +21,7 @@ const DisplayArticle: React.FC<DisplayArticleProps> = ({ source, title }) => {
       {/* {article.imageUrl && ( */}
         <img
           // src={article.imageUrl}
-          src="https://via.placeholder.com/600x400" // Placeholder image for demo purposes
+          src={article.imageUrl}
           alt="Article Image"
           className="w-full h-64 object-cover rounded-lg"
         />
@@ -29,9 +29,14 @@ const DisplayArticle: React.FC<DisplayArticleProps> = ({ source, title }) => {
 
       {/* 📰 Title + Meta */}
       <div>
-        <h2 className="text-3xl font-bold mb-2 text-gray-900">{article.title}</h2>
+        <h2 className="text-3xl font-bold mb-2 text-gray-900">{article.articleName}</h2>
         {article.author && (
-          <p className="text-sm text-gray-600 mb-1">By {article.author}</p>
+          <p className="text-sm text-gray-600 mb-1">
+          <span className="font-medium">By {article.author}</span>
+          <span className="mx-2 text-gray-400">|</span>
+          <span>Published: {article.datePublished instanceof Date ? article.datePublished.toLocaleDateString() : article.datePublished}</span>
+        </p>
+        
         )}
         {article.link && (
           <a

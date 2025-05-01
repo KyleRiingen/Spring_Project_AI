@@ -1,4 +1,4 @@
-import { pgTable, varchar, serial, text} from "drizzle-orm/pg-core";
+import { pgTable, varchar, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 // Basic user table Drizzle has nice functionality because it uses SQL like functions to query the database 
 // which is different compared to frameworks like Django which abstract the SQL syntax from the users 
@@ -17,5 +17,6 @@ export const articles = pgTable("articles", {
   category: varchar({ length: 100 }),
   summary: text(),
   imageUrl: varchar({ length: 500 }),
+  datePublished: timestamp()
 
 });

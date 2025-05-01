@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 // This hook fetches a single article based on the source and title provided.
 
 export interface FullArticle {
-    title: string;
+    articleName: string;
     content: string;
     author?: string;
     link?: string;
@@ -13,6 +13,7 @@ export interface FullArticle {
     category?: string;
     summary?: string;
     imageUrl?: string;
+    datePublished?: string | Date
   }
   
 
