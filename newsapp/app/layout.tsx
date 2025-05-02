@@ -3,8 +3,9 @@
 import React from "react";
 import "./globals.css"
 import { Sigmar, Montserrat } from "next/font/google"
-import ButtonContext from "./compare/context/ButtonContext"
 import Header from "./components/Header"
+import { SessionProvider } from "next-auth/react";
+
 
 
 const sigmar = Sigmar({
@@ -30,10 +31,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${sigmar.variable} ${montserrat.variable} bg-stone-50`} >
+        <SessionProvider>
           <Header />
           <main className="pt-20 bg-white"> {/* Padding to account for the fixed header */}
             {children}
           </main>
+        </SessionProvider>
       </body>
     </html>
   );

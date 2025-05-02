@@ -26,5 +26,27 @@ export const dailySummaries = pgTable("daily_summaries", {
 	days: integer("days").notNull(), // 1, 3, or 7
 	summary: text("summary").notNull(),
 	generatedAt: timestamp("generated_at").defaultNow().notNull(),
-  });
+});
+
+// User table 
+export const user = pgTable('user',{
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    first_name: varchar(),
+    last_name: varchar(),
+    email: varchar(),
+    password: varchar() 
+});
+
+// Permission table 
+export const permission = pgTable('permission', {
+    id: serial().primaryKey(),  // Auto Incremental primary key 
+    value: varchar()
+});
+
+// Union table to link users to a permission 
+export const user_permission = pgTable("user_permission", {
+	id: serial().primaryKey(),
+	user_id: integer("user_id").references(() => user.id), // Explicitly define column name
+	permission_id: integer("permission_id").references(() => permission.id), // Explicitly define column name
+});
   
