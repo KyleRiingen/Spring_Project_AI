@@ -1,3 +1,15 @@
+/*
+    This API route summarizes articles using OpenAI's model.
+    It retrieves articles from the database that do not have a summary,
+    generates a summary using OpenAI, and then updates the database with the new summary.
+    The route is designed to be called periodically to keep the article summaries up to date.
+
+
+    This should be ran once per 24 hours. Run at the same time as the article fetcher.
+
+
+*/
+
 import { NextResponse } from "next/server";
 import { db } from "@/db/db";
 import { articles } from "@/db/schema";

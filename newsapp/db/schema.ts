@@ -1,4 +1,4 @@
-import { pgTable, varchar, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, varchar, serial, text, timestamp, integer} from "drizzle-orm/pg-core";
 
 // Basic user table Drizzle has nice functionality because it uses SQL like functions to query the database 
 // which is different compared to frameworks like Django which abstract the SQL syntax from the users 
@@ -20,3 +20,11 @@ export const articles = pgTable("articles", {
   datePublished: timestamp()
 
 });
+
+export const dailySummaries = pgTable("daily_summaries", {
+	id: serial("id").primaryKey(),
+	days: integer("days").notNull(), // 1, 3, or 7
+	summary: text("summary").notNull(),
+	generatedAt: timestamp("generated_at").defaultNow().notNull(),
+  });
+  
