@@ -1,70 +1,83 @@
+// components/SearchBox.tsx
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
-import { useArticles } from "../hooks/useArticles";
+
+import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { useArticles } from "../hooks/useArticles";
 
 const SearchBox: React.FC = () => {
+  const [expanded, setExpanded] = useState(false);
   const [query, setQuery] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
   const router = useRouter();
 
-  // ✅ Fetch each source separately
   const cnn = useArticles(useMemo(() => ["CNN"], []));
   const fox = useArticles(useMemo(() => ["Fox News"], []));
   const bbc = useArticles(useMemo(() => ["BBC"], []));
 
-  // ✅ Merge all articles into one list
-  const allArticles = useMemo(() => {
-    return [
-      ...(cnn.news1 || []),
-      ...(fox.news1 || []),
-      ...(bbc.news1 || []),
-    ];
-  }, [cnn.news1, fox.news1, bbc.news1]);
+  const allArticles = useMemo(() => [
+    ...(cnn.news1 || []),
+    ...(fox.news1 || []),
+    ...(bbc.news1 || []),
+  ], [cnn.news1, fox.news1, bbc.news1]);
 
-  // ✅ Filter by title
   const filteredArticles = useMemo(() => {
     if (!query) return [];
     return allArticles.filter((article) =>
-      article.titles.toLowerCase().includes(query.toLowerCase())
+      article.articleName.toLowerCase().includes(query.toLowerCase())
     );
   }, [query, allArticles]);
 
   return (
     <div className="relative">
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          setShowDropdown(true);
-        }}
-        placeholder="Search articles..."
-        className="w-64 px-3 py-2 text-sm border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
+      <button
+        onClick={() => setExpanded((prev) => !prev)}
+        className="p-2 hover:bg-[#66635B]/30 rounded-full transition"
+      >
+        <img src="search.svg" alt="Search" className="w-5 h-5" />
+      </button>
 
-      {/* Dropdown */}
-      {showDropdown && query.length > 0 && (
-        <ul className="absolute z-50 w-full bg-white border border-gray-200 rounded-md shadow-lg mt-1 max-h-60 overflow-y-auto">
-          {filteredArticles.length === 0 ? (
-            <li className="px-3 py-2 text-sm text-gray-500">No matches found</li>
-          ) : (
-            filteredArticles.map((article, index) => (
-              <li
-                key={index}
-                className="px-3 py-2 text-sm hover:bg-blue-100 cursor-pointer"
-                onClick={() => {
-                  router.push(`/news?source=${encodeURIComponent(article.source)}&title=${encodeURIComponent(article.titles)}`);
-                  setQuery(article.titles);
-                  setShowDropdown(false);
-                }}
-              >
-                {article.titles}
-              </li>
-            ))
-          )}
-        </ul>
-      )}
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: 256, opacity: 1 }}
+            exit={{ width: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute right-0 top-0 z-10"
+          >
+            <input
+              type="text"
+              autoFocus
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search articles..."
+              className="w-64 px-3 py-2 text-sm border border-[#A59E8C] rounded-md bg-white shadow focus:outline-none"
+            />
+            {query && (
+              <ul className="absolute mt-1 w-64 bg-white max-h-60 overflow-y-auto shadow rounded-md border border-gray-200 z-20">
+                {filteredArticles.length > 0 ? (
+                  filteredArticles.map((article, index) => (
+                    <li
+                      key={index}
+                      className="px-3 py-2 text-sm hover:bg-[#93A8AC]/20 cursor-pointer"
+                      onClick={() => {
+                        router.push(`/news?source=${encodeURIComponent(article.source)}&title=${encodeURIComponent(article.articleName)}`);
+                        setQuery(article.articleName);
+                        setExpanded(false);
+                      }}
+                    >
+                      {article.articleName}
+                    </li>
+                  ))
+                ) : (
+                  <li className="px-3 py-2 text-sm text-gray-500">No matches found</li>
+                )}
+              </ul>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -33,7 +33,7 @@ export default function RootLayout({
       <body className={`${sigmar.variable} ${montserrat.variable} bg-stone-50`} >
         <SessionProvider>
           <Header />
-          <main className="pt-20 bg-white"> {/* Padding to account for the fixed header */}
+          <main> {/* Padding to account for the fixed header */}
             {children}
           </main>
         </SessionProvider>
