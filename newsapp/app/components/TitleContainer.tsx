@@ -28,7 +28,7 @@ function TitleContainer() {
             <div className="flex flex-col gap-3">
               {news1.slice(0, visibleCount1).map((item, index) => (
                 <TitleButton
-                  title={item.titles}
+                  title={item.articleName}
                   key={index}
                   source={source1}
                 />
@@ -60,7 +60,7 @@ function TitleContainer() {
             <div className="flex flex-col gap-3">
               {news2.slice(0, visibleCount2).map((item, index) => (
                 <TitleButton
-                  title={item.titles}
+                  title={item.articleName}
                   key={index}
                   source={source2}
                 />

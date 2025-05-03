@@ -4,7 +4,13 @@
 import { useState, useEffect } from "react";
 
 export interface Article {
-  titles: string;
+  articleName: string;
+  link: string;
+  newsSource: string;
+  content?: string;
+  author?: string;
+  imageUrl?: string;
+  datePublished?: string;
 }
 
 const formatSource = (name: string) => name.toLowerCase().replace(/\s/g, "");
@@ -15,6 +21,7 @@ export const useArticles = (sources: string[]) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  console.log(news1);
   useEffect(() => {
     const fetchArticles = async () => {
       setLoading(true);

@@ -1,14 +1,19 @@
 import 'dotenv/config';
 import { articles } from '@/db/schema';
 import { db } from '@/db/db';
+import { eq } from "drizzle-orm";
+
 
 type Article = {
     title: string;
     url: string;
     content?: string;
     newsSource: string;
-    author?: string 
+    author?: string;
+    imageUrl?: string;
+    datePublished?: string;
 };
+
 
 
 // Fetch all the data from the specified endpoints already created 
@@ -25,6 +30,9 @@ async function fetchData(url: string) {
 
 async function saveDataToDatabase(data: Article[]) {
     try {
+
+        await db.delete(articles).where(eq(articles.newsSource, "BBC")); //CLEAR THE OLD DATA FIRST, REMOVE THIS LINE 5/1 - MATHEW
+
         for (const article of data) {
             // Check if article exists and has a title before inserting
             if (!article || !article.title) {
@@ -38,9 +46,12 @@ async function saveDataToDatabase(data: Article[]) {
                     articleName: article.title,
                     link: article.url,
                     newsSource: article.newsSource,
-                    content: article.content ?? "", // Use null if content is missing
-                    author: article.author ?? "" // Use null if author is missing
+                    content: article.content ?? "",
+                    author: article.author ?? "",
+                    imageUrl: article.imageUrl ?? "",
+                    datePublished: article.datePublished ? new Date(article.datePublished) : undefined
                 });
+                
                 console.log("Inserted:", article.title);
             }
         }
@@ -55,13 +66,13 @@ async function saveDataToDatabase(data: Article[]) {
 
 // This API Endpoint will be used to create new articles in the database on vercel cron jobs once a day
 export async function GET() { 
-    // Delete all rows because only going to compare articles daily 
-    await db.delete(articles);
+    // changing this i think, but this was previous comment here: Delete all rows because only going to compare articles daily
+    // await db.delete(articles);
 
     // All api endpoints 
     const endpoints: string[] = [
-        "http://localhost:3000/api/scraper/cnn",
-        "http://localhost:3000/api/scraper/foxnews",
+        // "http://localhost:3000/api/scraper/cnn",
+        //  "http://localhost:3000/api/scraper/foxnews",
         "http://localhost:3000/api/scraper/bbc",
     ]
 

@@ -26,14 +26,14 @@ const ArticleList: React.FC<ArticleListProps> = ({ source }) => {
           {news1.map((article, index) => (
             <button
               key={index}
-              onClick={() => setSelectedTitle(article.titles)}
+              onClick={() => setSelectedTitle(article.articleName)}
               className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition ${
-                selectedTitle === article.titles
+                selectedTitle === article.articleName
                   ? "bg-blue-100 text-blue-900 font-semibold"
                   : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              {article.titles}
+              {article.articleName}
             </button>
           ))}
         </div>
