@@ -29,8 +29,9 @@ export const useBiasPrediction = (text: string | null) => {
             if (!res.ok) throw new Error(`Status ${res.status}`);
             const data = await res.json();
             setBias(data);
-         } catch (err: any) {
-            setError(err.message || "Unknown error");
+         } catch (err: Error | unknown) {
+            const errorMessage = err instanceof Error ? err.message : "Unknown error";
+            setError(errorMessage);
             console.error("Bias fetch error:", err);
          } finally {
             setLoading(false);

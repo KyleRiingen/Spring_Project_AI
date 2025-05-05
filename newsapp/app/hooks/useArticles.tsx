@@ -47,9 +47,10 @@ export const useArticles = (sources: string[]) => {
                setNews1([]);
                setNews2([]);
             }
-         } catch (err: any) {
-            console.error("Fetch error:", err);
-            setError(err.message || "Unknown error");
+         } catch (err: Error | unknown) {
+            const errorMessage = err instanceof Error ? err.message : "Unknown error";
+            setError(errorMessage);
+            console.error("Bias fetch error:", err);
          } finally {
             setLoading(false);
          }
