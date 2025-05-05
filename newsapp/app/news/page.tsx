@@ -8,17 +8,18 @@ const NewsPage: React.FC = () => {
   const [selectedSource, setSelectedSource] = useState<string | null>(null);
 
   return (
-    <div className="pt-20 px-6 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-montserrat font-semibold text-gray-900 mb-6">
-        Political News Sources
+    <main className="pt-32 pb-20 px-6 md:px-12 max-w-7xl mx-auto font-montserrat">
+      <h1 className="text-5xl font-bold text-[#1F2A44] mb-4">
+        Browse Political News
       </h1>
-      <NewsSummary />
-
-      <p className="text-gray-700 text-base mb-8">
-        Choose from a variety of political news sources to explore coverage from different viewpoints.
+      <p className="text-lg text-[#4C5760] mb-8 max-w-3xl">
+        Unbias.ai aggregates articles from top political sources and summarizes
+        trends using AI. Select a source to explore recent articles.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <NewsSummary />
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
         {["BBC", "CNN", "Fox News"].map((source) => (
           <NewsSourceCard
             key={source}
@@ -28,8 +29,12 @@ const NewsPage: React.FC = () => {
         ))}
       </div>
 
-      {selectedSource && <ArticleList source={selectedSource} />}
-    </div>
+      {selectedSource && (
+        <div className="mt-14">
+          <ArticleList source={selectedSource} />
+        </div>
+      )}
+    </main>
   );
 };
 

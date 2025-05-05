@@ -7,13 +7,13 @@ export default function NewsSummary() {
   const { summary, loading, cached, error } = useSummary(selectedDays);
 
   return (
-    <div className="mb-6">
-      <div className="flex items-center justify-between mb-2">
-        <h2 className="text-xl font-semibold">Top News Summary</h2>
+    <div className="bg-[#F5F6F8] p-6 rounded-xl border border-[#D0D3D8] mb-10">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+        <h2 className="text-xl font-bold text-[#1F2A44]">📰 Top News Summary</h2>
         <select
           value={selectedDays}
           onChange={(e) => setSelectedDays(Number(e.target.value))}
-          className="border px-2 py-1 rounded text-sm"
+          className="border border-[#D0D3D8] px-3 py-2 rounded-md text-sm mt-2 sm:mt-0"
         >
           <option value={1}>Past 1 Day</option>
           <option value={3}>Past 3 Days</option>
@@ -21,7 +21,7 @@ export default function NewsSummary() {
         </select>
       </div>
 
-      <div className="bg-gray-100 p-4 rounded-md text-sm">
+      <div className="text-sm text-[#1F2A44]">
         {loading ? (
           <p>Loading summary...</p>
         ) : error ? (
@@ -29,7 +29,9 @@ export default function NewsSummary() {
         ) : (
           <>
             <p>{summary}</p>
-            {cached && <p className="text-gray-500 text-xs mt-2">🗂️ Cached summary</p>}
+            {cached && (
+              <p className="text-gray-500 text-xs mt-2">🗂️ Cached summary</p>
+            )}
           </>
         )}
       </div>
