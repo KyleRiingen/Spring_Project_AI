@@ -3,8 +3,8 @@ import { useSummary } from "../hooks/useSummary";
 import { useState } from "react";
 
 export default function NewsSummary() {
-  const [selectedDays, setSelectedDays] = useState(1);
-  const { summary, loading, cached, error } = useSummary(selectedDays);
+   const [selectedDays, setSelectedDays] = useState(1);
+   const { summary, loading, cached, error } = useSummary(selectedDays);
 
   return (
     <div className="bg-[#F5F6F8] p-6 rounded-xl border border-[#D0D3D8] mb-10">
@@ -37,4 +37,5 @@ export default function NewsSummary() {
       </div>
     </div>
   );
+
 }
