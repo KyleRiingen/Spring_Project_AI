@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRenderTime } from "../hooks/useRenderTime";
 
 // This hook fetches a single article based on the source and title provided.
 
@@ -17,6 +18,7 @@ export interface FullArticle {
 }
 
 export const useSingleArticle = (source: string, title: string | null) => {
+   useRenderTime("useSingleArticle");
    const [article, setArticle] = useState<FullArticle | null>(null);
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState<string | null>(null);

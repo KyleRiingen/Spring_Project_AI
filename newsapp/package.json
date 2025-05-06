@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "20.17.32",
     "@types/pg": "^8.11.11",
     "@types/puppeteer": "^5.4.7",
