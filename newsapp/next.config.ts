@@ -14,6 +14,16 @@ const config: NextConfig = {
       config.externals = [...(config.externals || []), "bcrypt"];
       return config;
    },
+   // Move Turbopack configuration to experimental.turbo
+   experimental: {
+      turbo: {
+         // Handle external dependencies
+         resolveAlias: {
+            // If you need any specific aliases
+         },
+         resolveExtensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+      },
+   },
    // Your other existing config options can remain here
 };
 
